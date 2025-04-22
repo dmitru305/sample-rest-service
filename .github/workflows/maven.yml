@@ -21,12 +21,12 @@ jobs:
         id: hello
         uses: Jacobsonius/hello-world-docker-action@main
         with:
-          config-path: /home/runner/work/sample-rest-service/sample-rest-service/pom.xml
+          config-path: /home/runner/work/sample-rest-service/pom.xml
           who-to-greet: 'Mona the Octocat'
       # Use the output from the `hello` step
 #      - name: Get the output time
 #        run: echo "The time was ${{ steps.hello.outputs.time }}"
-    # - name: Set up JDK 171
+    # - name: Set up JDK 17
     #   uses: actions/setup-java@v4
     #   with:
     #     java-version: '17'
