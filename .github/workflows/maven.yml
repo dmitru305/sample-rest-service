@@ -21,7 +21,7 @@ jobs:
         id: hello
         uses: Jacobsonius/hello-world-docker-action@main
         with:
-          config-path: /home/runner/work/sample-rest-service/sample-rest-service/pom.xml
+          config-path: /pom.xml
           who-to-greet: 'Mona the Octocat'
       # Use the output from the `hello` step
 #      - name: Get the output time
