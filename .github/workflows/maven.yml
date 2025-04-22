@@ -13,13 +13,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - name: List repo contents
+        run: ls -la
       - name: Hello world action step
         id: hello
         uses: Jacobsonius/hello-world-docker-action@main
         with:
           who-to-greet: 'Mona the Octocat'
-          build-args: |
-            GITHUB_WORKSPACE=$GITHUB_WORKSPACE
+#          build-args: GITHUB_WORKSPACE=$GITHUB_WORKSPACE
       # Use the output from the `hello` step
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
