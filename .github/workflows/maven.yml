@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Pws
+      - name: Pwd
         run: pwd
       - name: List repo contents
         run: ls -la
@@ -21,7 +21,7 @@ jobs:
         id: hello
         uses: Jacobsonius/hello-world-docker-action@main
         with:
-          config-path: sample-rest-service/pom.xml
+          config-path: sample-rest-service/sample-rest-service/pom.xml
           who-to-greet: 'Mona the Octocat'
       # Use the output from the `hello` step
 #      - name: Get the output time
