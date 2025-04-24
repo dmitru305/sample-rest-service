@@ -24,7 +24,7 @@ jobs:
 #          username: ${{ env.DOCKER_USERNAME }}
 #          password: ${{ env.DOCKER_PASSWORD }}
       - name: QA action step
-        id: TestLmm
+        id: Test
         uses: Jacobsonius/hello-world-docker-action@DockerHub
         with:
           key: ${{ secrets.KEY }}
