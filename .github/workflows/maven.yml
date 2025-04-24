@@ -19,7 +19,7 @@ jobs:
         run: ls -la
       - name: Hello world action step
         id: hello
-        uses: Jacobsonius/hello-world-docker-action@main
+        uses: Jacobsonius/hello-world-docker-action@DockerHub
         with:
           key: aaaa
           input_file: pom.xml
