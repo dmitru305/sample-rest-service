@@ -6,10 +6,6 @@ on:
   pull_request:
     branches: [ "master" ]
 
-env:
-  USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
 jobs:
   build:
 
@@ -23,18 +19,15 @@ jobs:
       - name: List repo contents
         run: ls -la
 
-      - name: Docker user name
-        run: echo "${{ env.DOCKER_USERNAME }}"
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ env.USERNAME }}
-          password: ${{ env.PASSWORD }}
-#      - name: Qa action step
-#        id: hello
-#        uses: Jacobsonius/hello-world-docker-action@DockerHub
+#      - name: Log in to Docker Hub
+#        uses: docker/login-action@v3
 #        with:
-#          key: aaaa
-#          input_file: pom.xml
-#          output_file: qa.json
+#          username: ${{ env.DOCKER_USERNAME }}
+#          password: ${{ env.DOCKER_PASSWORD }}
+      - name: Qa action step
+        id: hello
+        uses: Jacobsonius/hello-world-docker-action@DockerHub
+        with:
+          key: aaaa
+          input_file: pom.xml
+          output_file: qa.json
