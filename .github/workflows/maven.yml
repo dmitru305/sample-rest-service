@@ -24,10 +24,10 @@ jobs:
 #        with:
 #          username: ${{ env.DOCKER_USERNAME }}
 #          password: ${{ env.DOCKER_PASSWORD }}
-      - name: Qa action step
-        id: hello
+      - name: QA action step
+        id: QA Test Action
         uses: Jacobsonius/hello-world-docker-action@DockerHub
         with:
-          key: aaaa
+          key: ${{ secrets.KEY }}
           input_file: pom.xml
           output_file: qa.json
