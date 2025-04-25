@@ -30,3 +30,14 @@ jobs:
           key: ${{ secrets.KEY }}
           input_file: pom.xml
           output_file: qa.json
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Auto update QA"
+          #            auto-merge: true
+          branch: auto/update-report
+          title: "Auto update QA"
+          body: "This PR was automatically created from GitHub QA Assistance Actions"
+          base: main
