@@ -63,19 +63,17 @@ jobs:
     uses: ./.github/workflows/reusable.yml
     with:
       attempt: 1
-    continue-on-error: true
 
   attempt-2:
+    if: needs.attempt-1.result == 'failure'
     needs: attempt-1
-    if: failure()
     uses: ./.github/workflows/reusable.yml
     with:
       attempt: 2
-    continue-on-error: true
 
   attempt-3:
+    if: needs.attempt-2.result == 'failure'
     needs: attempt-2
-    if: failure()
     uses: ./.github/workflows/reusable.yml
     with:
       attempt: 3
