@@ -38,6 +38,7 @@ jobs:
           output_file: qa.json
 
   attempt-1: # Первая попытка сгенерировать и скомпилировать тесты
+    needs: attempt-0
     uses: ./.github/workflows/reusable.yml
     with:
       attempt: 1
