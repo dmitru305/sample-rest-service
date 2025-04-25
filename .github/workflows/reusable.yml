@@ -28,6 +28,9 @@ jobs:
       - name: Show files
         run: ls -la
 
+      - name: Show qa.json files
+        ls -la qa.json/
+
 #     Генерация тестов
 
       - name: Build and test (Attempt ${{ inputs.attempt }})
@@ -38,6 +41,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: junit-results
+          overwrite: true
           path: target/surefire-reports/*.xml
 
       - name: Save Jacoco coverage report
@@ -45,6 +49,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
+          overwrite: true
           path: target/site/jacoco/index.html
 
 #      - name: Create Pull Request
