@@ -19,24 +19,26 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Download LLM index
+        uses: actions/download-artifact@v3
+        with:
+          name: llm-index
+          path: qa.json
+
+#     Генерация тестов
+
       - name: Build and test (Attempt ${{ inputs.attempt }})
         run: mvn clean verify
 
-      - name: Upload JUnit test results
+      - name: Save JUnit test results
+        if: always()  # даже если тесты упали
         uses: actions/upload-artifact@v4
         with:
           name: junit-results
           path: target/surefire-reports/*.xml
 
-#      - name: Publish Test Report
-#        uses: dorny/test-reporter@v2
-#        if: always()
-#        with:
-#          name: JUnit Test Report
-#          path: target/surefire-reports/*.xml
-#          reporter: java-junit
-
-      - name: Upload Jacoco coverage report
+      - name: Save Jacoco coverage report
+        if: always()  # даже если тесты упали
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report

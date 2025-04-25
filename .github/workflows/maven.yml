@@ -23,6 +23,20 @@ jobs:
       - name: Build and test with Maven
         run: mvn clean verify
 
+      - name: Save JUnit test results
+        if: always()  # даже если тесты упали
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-results
+          path: target/surefire-reports/*.xml
+
+      - name: Save Jacoco coverage report
+        if: always()  # даже если тесты упали
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: target/site/jacoco/index.html
+
 #      - name: Log in to Docker Hub
 #        uses: docker/login-action@v3
 #        with:
@@ -37,7 +51,14 @@ jobs:
           input_file: pom.xml
           output_file: qa.json
 
+      - name: Save Index
+        uses: actions/upload-artifact@v4
+        with:
+          name: llm-index
+          path: qa.json
+
   attempt-1: # Первая попытка сгенерировать и скомпилировать тесты
+    if: needs.attempt-1.result != 'failure'
     needs: attempt-0
     uses: ./.github/workflows/reusable.yml
     with:
