@@ -20,11 +20,14 @@ jobs:
           distribution: 'temurin'
 
       - name: Download LLM index
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: llm-index
           path: qa.json
 
+      - name: Show LLM index
+        run: cat qa.json
+        
 #     Генерация тестов
 
       - name: Build and test (Attempt ${{ inputs.attempt }})
