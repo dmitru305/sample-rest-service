@@ -16,6 +16,6 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           java-version: '17'
-
+          distribution: 'temurin'
       - name: Build and test (Attempt ${{ inputs.attempt }})
         run: mvn clean verify
