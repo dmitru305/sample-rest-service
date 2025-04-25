@@ -31,6 +31,11 @@ jobs:
           input_file: pom.xml
           output_file: qa.json
 
+      - name: Set up Git config
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
