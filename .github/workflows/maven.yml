@@ -9,13 +9,13 @@ on:
 jobs:
   retry-build:
     runs-on: ubuntu-latest
-      strategy:
-        matrix:
-          attempt: [1, 2, 3]  # 🔁 до 3 попыток
-        continue-on-error: true  # даже при fail продолжаем матрицу
+    strategy:
+      matrix:
+        attempt: [1, 2, 3]  # 🔁 до 3 попыток
+    continue-on-error: true  # даже при fail продолжаем матрицу
 
-        outputs:
-          final-status: ${{ steps.set-output-status.outputs.status }}
+    outputs:
+      final-status: ${{ steps.set-output-status.outputs.status }}
 
     steps:
       - name: Checkout
