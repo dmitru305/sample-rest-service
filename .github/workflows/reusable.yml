@@ -1,0 +1,21 @@
+name: reusable-build
+
+on:
+  workflow_call:
+    inputs:
+      attempt:
+        required: true
+        type: number
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+
+      - name: Build and test (Attempt ${{ inputs.attempt }})
+        run: mvn clean verify

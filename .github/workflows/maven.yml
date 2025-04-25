@@ -6,26 +6,21 @@ on:
   pull_request:
     branches: [ "master" ]
 
-jobs:
-  retry-build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        attempt: [1, 2, 3]  # 🔁 до 3 попыток
-    continue-on-error: true  # даже при fail продолжаем матрицу
-
-    outputs:
-      final-status: ${{ steps.set-output-status.outputs.status }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+#jobs:
+#  attempt-1:
+#    runs-on: ubuntu-latest
+#    outputs:
+#      result: ${{ steps.result.outputs.status }}
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#
+#      - name: Set up JDK
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: '17'
+#          distribution: 'temurin'
 
 #      - name: Build and test with Maven
 #        run: mvn -B verify --file pom.xml
@@ -63,32 +58,27 @@ jobs:
 #          input_file: pom.xml
 #          output_file: qa.json
 
-      - name: Build and test (attempt ${{ matrix.attempt }})
-        id: build
-        run: |
-          echo "Attempt #${{ matrix.attempt }}"
-          mvn clean verify || echo "BUILD_FAILED=true" >> $GITHUB_ENV
+jobs:
+  attempt-1:
+    uses: ./.github/workflows/reusable.yml
+    with:
+      attempt: 1
+    continue-on-error: true
 
-      - name: Check test failures
-        id: check-tests
-        run: |
-          if grep -q "<failure" target/surefire-reports/*.xml; then
-            echo "TESTS_FAILED=true" >> $GITHUB_ENV
-          fi
+  attempt-2:
+    needs: attempt-1
+    if: failure()
+    uses: ./.github/workflows/reusable.yml
+    with:
+      attempt: 2
+    continue-on-error: true
 
-      - name: Decide if we stop or continue
-        id: set-output-status
-        run: |
-          if [[ "${{ env.BUILD_FAILED }}" == "true" || "${{ env.TESTS_FAILED }}" == "true" ]]; then
-            echo "status=failed" >> $GITHUB_OUTPUT
-          else
-            echo "status=success" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Stop further retries if success
-        if: steps.set-output-status.outputs.status == 'success'
-        run: |
-          echo "Build and tests passed. Stopping further attempts."
+  attempt-3:
+    needs: attempt-2
+    if: failure()
+    uses: ./.github/workflows/reusable.yml
+    with:
+      attempt: 3
 
 #      - name: Create Pull Request
 #        uses: peter-evans/create-pull-request@v5
