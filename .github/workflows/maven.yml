@@ -45,4 +45,4 @@ jobs:
           branch: auto/update-report
           title: "Auto update QA"
           body: "This PR was automatically created from GitHub QA Assistance Actions"
-          base: main
+          base: master
