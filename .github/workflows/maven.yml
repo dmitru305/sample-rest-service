@@ -6,100 +6,52 @@ on:
   pull_request:
     branches: [ "master" ]
 
-#jobs:
-#  attempt-1:
-#    runs-on: ubuntu-latest
-#    outputs:
-#      result: ${{ steps.result.outputs.status }}
-#
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v4
-#
-#      - name: Set up JDK
-#        uses: actions/setup-java@v3
-#        with:
-#          java-version: '17'
-#          distribution: 'temurin'
+jobs:
+  attempt-0: # Генерируем LLM индекс
+    runs-on: ubuntu-latest
 
-#      - name: Build and test with Maven
-#        run: mvn -B verify --file pom.xml
-#
-#      - name: Upload JUnit test results
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: junit-results
-#          path: target/surefire-reports/*.xml
-#
-#      - name: Publish Test Report
-#        uses: dorny/test-reporter@v2
-#        if: always()
-#        with:
-#          name: JUnit Test Report
-#          path: target/surefire-reports/*.xml
-#          reporter: java-junit
-#
-#      - name: Upload Jacoco coverage report
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: jacoco-report
-#          path: target/site/jacoco/index.html
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build and test with Maven
+        run: mvn clean verify
 
 #      - name: Log in to Docker Hub
 #        uses: docker/login-action@v3
 #        with:
 #          username: ${{ env.DOCKER_USERNAME }}
 #          password: ${{ env.DOCKER_PASSWORD }}
-#      - name: Generating JUnit tests
-#        id: QA
-#        uses: Jacobsonius/hello-world-docker-action@DockerHub
-#        with:
-#          key: ${{ secrets.KEY }}
-#          input_file: pom.xml
-#          output_file: qa.json
 
-jobs:
-  attempt-1:
+      - name: Generating JUnit tests
+        id: QA
+        uses: Jacobsonius/hello-world-docker-action@DockerHub
+        with:
+          key: ${{ secrets.KEY }}
+          input_file: pom.xml
+          output_file: qa.json
+
+  attempt-1: # Первая попытка сгенерировать и скомпилировать тесты
     uses: ./.github/workflows/reusable.yml
     with:
       attempt: 1
 
-  attempt-2:
+  attempt-2: # Вторая попытка сгенерировать и скомпилировать тесты
     if: needs.attempt-1.result == 'failure'
     needs: attempt-1
     uses: ./.github/workflows/reusable.yml
     with:
       attempt: 2
 
-  attempt-3:
+  attempt-3:  # Третья попытка сгенерировать и скомпилировать тесты
     if: needs.attempt-2.result == 'failure'
     needs: attempt-2
     uses: ./.github/workflows/reusable.yml
     with:
       attempt: 3
-
-#      - name: Create Pull Request
-#        uses: peter-evans/create-pull-request@v5
-#        with:
-#          token: ${{ secrets.GITHUB_TOKEN }}
-#          commit-message: "Auto update QA"
-#          #            auto-merge: true
-#          branch: auto/update-report
-#          title: "Auto update QA"
-#          body: "This PR was automatically created from GitHub QA Assistance Actions"
-#          base: master
-
-#  notify:
-#    needs: retry-build
-#    if: needs.retry-build.outputs.final-status == 'failed'
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Send Telegram alert
-#        env:
-#          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-#          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-#        run: |
-#          MESSAGE="❌ Build & tests failed after 3 attempts in repo: ${{ github.repository }} on branch: ${{ github.ref_name }}"
-#          curl -s -X POST https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage \
-#            -d chat_id=${TELEGRAM_CHAT_ID} \
-#            -d text="$MESSAGE"
