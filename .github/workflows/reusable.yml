@@ -25,9 +25,9 @@ jobs:
           name: llm-index
           path: qa.json
 
-      - name: Show LLM index
-        run: cat qa.json
-        
+      - name: Show files
+        run: ls -la
+
 #     Генерация тестов
 
       - name: Build and test (Attempt ${{ inputs.attempt }})
