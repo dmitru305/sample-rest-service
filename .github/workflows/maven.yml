@@ -59,7 +59,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: llm-index
-          path: ./.qa
+          path: README.md
 
   attempt-1: # Первая попытка сгенерировать и скомпилировать тесты
     if: needs.attempt-1.result != 'failure'
