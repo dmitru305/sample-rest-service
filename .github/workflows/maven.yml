@@ -43,14 +43,17 @@ jobs:
 #          username: ${{ env.DOCKER_USERNAME }}
 #          password: ${{ env.DOCKER_PASSWORD }}
 
+      - name: Show files
+        run: ls . -la
+
       - name: Generating project llm index
         id: QA
         uses: Jacobsonius/hello-world-docker-action@DockerHub
         with:
           key: ${{ secrets.KEY }}
           action: INDEX
-          input_dir: ./
-          output_dir: ./
+          input_dir: .
+          output_dir: .
 
       - name: Save Index
         uses: actions/upload-artifact@v4
