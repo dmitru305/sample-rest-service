@@ -52,6 +52,9 @@ jobs:
           input-dir: ./src/main/java/com/sampleservice/demo/config
           output-dir: .
 
+      - name: Fix permissions for .qa
+        run: sudo chown runner:docker .qa
+
       - name: Show files
         run: ls -la
 
@@ -59,7 +62,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: llm-index
-          path: ".qa"
+          path: .qa
 
   attempt-1: # Первая попытка сгенерировать и скомпилировать тесты
     if: needs.attempt-1.result != 'failure'
