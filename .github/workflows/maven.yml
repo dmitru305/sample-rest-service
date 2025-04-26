@@ -52,11 +52,11 @@ jobs:
           input-dir: ./src/main/java/com/sampleservice/demo/config
           output-dir: .
 
-      - name: Fix permissions for .qa
-        run: sudo chown runner:docker .qa
-
-      - name: Show files
-        run: ls -la
+#      - name: Fix permissions for .qa
+#        run: sudo chown runner:docker .qa
+#
+#      - name: Show files
+#        run: ls -la
 
       - name: Save Index
         uses: actions/upload-artifact@v4
