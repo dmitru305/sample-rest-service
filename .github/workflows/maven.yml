@@ -21,7 +21,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build and test with Maven
-        run: mvn clean # verify
+        run: mvn clean verify
 
       - name: Save JUnit test results
         if: always()  # even if the tests failed
@@ -49,14 +49,8 @@ jobs:
         with:
           key: ${{ secrets.KEY }}
           action-name: INDEX
-          input-dir: ./src/main/java/com/sampleservice/demo/config
+          input-dir: .
           output-dir: .
-
-#      - name: Fix permissions for .qa
-#        run: sudo chown runner:docker .qa
-#
-#      - name: Show files
-#        run: ls -la
 
       - name: Save Index
         uses: actions/upload-artifact@v4
