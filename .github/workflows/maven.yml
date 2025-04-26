@@ -43,9 +43,6 @@ jobs:
 #          username: ${{ env.DOCKER_USERNAME }}
 #          password: ${{ env.DOCKER_PASSWORD }}
 
-      - name: Show files
-        run: ls . -la
-
       - name: Generating project llm index
         id: QA
         uses: Jacobsonius/hello-world-docker-action@DockerHub
