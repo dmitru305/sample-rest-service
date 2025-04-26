@@ -48,9 +48,9 @@ jobs:
         uses: Jacobsonius/hello-world-docker-action@DockerHub
         with:
           key: ${{ secrets.KEY }}
-          action: INDEX
-          input_dir: ./src/main/java/com/sampleservice/demo/config
-          output_dir: .
+          action-name: INDEX
+          input-dir: ./src/main/java/com/sampleservice/demo/config
+          output-dir: .
 
       - name: Show files
         run: ls -la
@@ -59,7 +59,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: llm-index
-          path: README.md
+          path: ".qa"
 
   attempt-1: # Первая попытка сгенерировать и скомпилировать тесты
     if: needs.attempt-1.result != 'failure'
