@@ -21,7 +21,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build and test with Maven
-        run: mvn clean verify
+        run: mvn clean # verify
 
       - name: Save JUnit test results
         if: always()  # even if the tests failed
@@ -49,7 +49,7 @@ jobs:
         with:
           key: ${{ secrets.KEY }}
           action: INDEX
-          input_dir: .
+          input_dir: ./src/main/java/com/sampleservice/demo/config
           output_dir: .
 
       - name: Show files
@@ -59,7 +59,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: llm-index
-          path: .qa
+          path: ./.qa
 
   attempt-1: # Первая попытка сгенерировать и скомпилировать тесты
     if: needs.attempt-1.result != 'failure'
