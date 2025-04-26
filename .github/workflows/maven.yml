@@ -52,6 +52,9 @@ jobs:
           input_dir: .
           output_dir: .
 
+      - name: Show files
+        run: ls -la
+
       - name: Save Index
         uses: actions/upload-artifact@v4
         with:
