@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  attempt-0: # Генерируем LLM индекс
+  attempt-0: # Generating LLM index
     runs-on: ubuntu-latest
 
     steps:
@@ -24,14 +24,14 @@ jobs:
         run: mvn clean verify
 
       - name: Save JUnit test results
-        if: always()  # даже если тесты упали
+        if: always()  # even if the tests failed
         uses: actions/upload-artifact@v4
         with:
           name: junit-results
           path: target/surefire-reports/*.xml
 
       - name: Save Jacoco coverage report
-        if: always()  # даже если тесты упали
+        if: always()  # even if the tests failed
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
@@ -43,19 +43,20 @@ jobs:
 #          username: ${{ env.DOCKER_USERNAME }}
 #          password: ${{ env.DOCKER_PASSWORD }}
 
-      - name: Generating JUnit tests
+      - name: Generating project llm index
         id: QA
         uses: Jacobsonius/hello-world-docker-action@DockerHub
         with:
           key: ${{ secrets.KEY }}
-          input_file: pom.xml
-          output_file: qa.json
+          action: INDEX
+          input_dir: ./
+          output_dir: ./
 
       - name: Save Index
         uses: actions/upload-artifact@v4
         with:
           name: llm-index
-          path: qa.json
+          path: .qa
 
   attempt-1: # Первая попытка сгенерировать и скомпилировать тесты
     if: needs.attempt-1.result != 'failure'

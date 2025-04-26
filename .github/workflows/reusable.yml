@@ -25,11 +25,11 @@ jobs:
           name: llm-index
           path: qa.json
 
-      - name: Show files
-        run: ls -la
-
-      - name: Show qa.json files
-        run: ls -la qa.json/
+#      - name: Show files
+#        run: ls -la
+#
+#      - name: Show qa.json files
+#        run: ls -la qa.json/
 
 #     Генерация тестов
 
