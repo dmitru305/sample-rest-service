@@ -42,12 +42,6 @@ jobs:
           name: jacoco-report
           path: target/site/jacoco
 
-      - name: Show files #debug
-        run: ls -la
-
-      - name: Show target files
-        run: tree target/ #debug
-
       - name: Generating test plan
         id: QATestPlan
         uses: Jacobsonius/hello-world-docker-action@DockerHub
@@ -60,11 +54,12 @@ jobs:
           input-dir: ./
           output-dir: ./
 
-      - name: Show files #debug
-        run: ls -la
-
-      - name: Show .plan files
-        run: ls -la .plan/ #debug
+      - name: Save plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-plan
+          include-hidden-files: true
+          path: .plan
 
       - name: Update tests
         id: QAUpdateTests
@@ -82,7 +77,7 @@ jobs:
         run: mvn clean verify
 
       - name: Save JUnit test results
-        if: always()  # даже если тесты упали
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: junit-results
@@ -90,7 +85,7 @@ jobs:
           path: target/surefire-reports/*.xml
 
       - name: Save Jacoco coverage report
-        if: always()  # даже если тесты упали
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
@@ -107,3 +102,6 @@ jobs:
           title: "Auto update QA"
           body: "This PR was automatically created from GitHub QA Assistance Actions"
           base: master
+
+#      - name: Show files
+#        run: tree ./
