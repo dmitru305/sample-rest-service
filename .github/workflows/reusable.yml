@@ -29,18 +29,21 @@ jobs:
         with:
           name: llm-index
           path: .qa
+          overwrite: true
 
       - name: Download test report
         uses: actions/download-artifact@v4
         with:
-          name: jacoco-report
+          name: junit-report
           path: target/surefire-reports/
+          overwrite: true
 
       - name: Download coverage report
         uses: actions/download-artifact@v4
         with:
           name: jacoco-report
           path: target/site/jacoco
+          overwrite: true
 
       - name: Generating test plan
         id: QATestPlan
@@ -60,6 +63,7 @@ jobs:
           name: test-plan
           include-hidden-files: true
           path: .plan
+          overwrite: true
 
       - name: Update tests
         id: QAUpdateTests
@@ -76,21 +80,21 @@ jobs:
       - name: Build and re-test (Attempt ${{ inputs.attempt }})
         run: mvn clean verify
 
-      - name: Save JUnit test results
+      - name: Save test report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: junit-results
-          overwrite: true
           path: target/surefire-reports/*.xml
+          overwrite: true
 
-      - name: Save Jacoco coverage report
+      - name: Save coverage report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
-          overwrite: true
           path: target/site/jacoco/index.html
+          overwrite: true
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5

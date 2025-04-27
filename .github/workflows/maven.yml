@@ -29,6 +29,7 @@ jobs:
         with:
           name: junit-report
           path: target/surefire-reports/*.xml
+          overwrite: true
 
       - name: Save coverage report
         if: always()  # even if the tests failed
@@ -36,6 +37,7 @@ jobs:
         with:
           name: jacoco-report
           path: target/site/jacoco/index.html
+          overwrite: true
 
       - name: Generating project llm index
         id: QAIndex
@@ -55,6 +57,7 @@ jobs:
           name: llm-index
           include-hidden-files: true
           path: .qa
+          overwrite: true
 
   attempt-1:
     needs: attempt-0
