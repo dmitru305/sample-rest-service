@@ -62,6 +62,8 @@ jobs:
     uses: ./.github/workflows/reusable.yml
     with:
       attempt: 1
+    secrets:
+      MY_SECRET_KEY: ${{ secrets.KEY }}
 
   attempt-2:
     if: needs.attempt-1.result == 'failure'

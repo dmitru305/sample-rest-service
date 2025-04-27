@@ -43,13 +43,13 @@ jobs:
         run: ls -la
 
       - name: Show target files
-        run: ls -la target/ #debug
+        run: tree target/ #debug
 
       - name: Generating test plan
         id: QATestPlan
         uses: Jacobsonius/hello-world-docker-action@DockerHub
         with:
-          key: ${{ secrets.KEY }}
+          key: ${{ secrets.MY_SECRET_KEY }}
           action-name: PLAN
           target-value: '80'
           test-report-dir: ./target
@@ -67,7 +67,7 @@ jobs:
         id: QAUpdateTests
         uses: Jacobsonius/hello-world-docker-action@DockerHub
         with:
-          key: ${{ secrets.KEY }}
+          key: ${{ secrets.MY_SECRET_KEY }}
           action-name: JUNIT_UPDATE
           target-value: '80'
           test-report-dir: ./target
