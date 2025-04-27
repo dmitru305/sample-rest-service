@@ -42,7 +42,7 @@ jobs:
       - name: Show files #debug
         run: ls -la
 
-      - name: Show .qa files
+      - name: Show target files
         run: ls -la target/ #debug
 
       - name: Generating test plan
