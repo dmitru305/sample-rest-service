@@ -71,6 +71,8 @@ jobs:
     uses: ./.github/workflows/reusable.yml
     with:
       attempt: 2
+    secrets:
+      MY_SECRET_KEY: ${{ secrets.KEY }}
 
   attempt-3:
     if: needs.attempt-2.result == 'failure'
@@ -78,6 +80,8 @@ jobs:
     uses: ./.github/workflows/reusable.yml
     with:
       attempt: 3
+    secrets:
+      MY_SECRET_KEY: ${{ secrets.KEY }}
 
 
       #      - name: Log in to Docker Hub
