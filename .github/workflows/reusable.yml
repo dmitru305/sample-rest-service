@@ -6,6 +6,9 @@ on:
       attempt:
         required: true
         type: number
+    secrets:
+      MY_SECRET_KEY:
+        required: true
 
 jobs:
   build:
