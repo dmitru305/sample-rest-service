@@ -27,7 +27,7 @@ jobs:
         if: always()  # even if the tests failed
         uses: actions/upload-artifact@v4
         with:
-          name: junit-results
+          name: junit-report
           path: target/surefire-reports/*.xml
 
       - name: Save coverage report

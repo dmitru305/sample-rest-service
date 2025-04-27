@@ -24,7 +24,7 @@ jobs:
       - name: Download LLM index
         uses: actions/download-artifact@v4
         with:
-          name: junit-results
+          name: llm-index
           path: .qa
 
       - name: Download test report
@@ -36,14 +36,14 @@ jobs:
       - name: Download coverage report
         uses: actions/download-artifact@v4
         with:
-          name: llm-index
+          name: jacoco-report
           path: target/site/jacoco
 
       - name: Show files #debug
         run: ls -la
 
       - name: Show .qa files
-        run: ls -la .qa/ #debug
+        run: ls -la target/ #debug
 
       - name: Generating test plan
         id: QATestPlan
