@@ -52,8 +52,8 @@ jobs:
           target-value: '80'
           test-report-dir: ./target
           coverage-report-dir: ./target
-          input-dir: .
-          output-dir: .
+          input-dir: ./
+          output-dir: ./
 
       - name: Save Index
         uses: actions/upload-artifact@v4
