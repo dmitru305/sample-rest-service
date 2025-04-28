@@ -41,7 +41,7 @@ jobs:
 
       - name: Generating LLM index
         id: QAIndex
-        uses: Jacobsonius/hello-world-docker-action@DockerHub
+        uses: Jacobsonius/qa-assistance-action@master
         with:
           key: ${{ secrets.KEY }}
           action-name: INDEX
