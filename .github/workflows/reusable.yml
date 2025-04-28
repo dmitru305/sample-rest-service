@@ -86,12 +86,20 @@ jobs:
 
       - name: Build and re-test (Attempt ${{ inputs.attempt }})
         continue-on-error: true
-        run: mvn clean verify
+        run: mvn clean verify | tee build.log
 
       - name: Capture Maven Exit Code
         id: capture_exit_code
         run: |
           echo "build_exit_code=$?" >> $GITHUB_OUTPUT        
+
+      - name: Save build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build.log
+          overwrite: true
 
       - name: Save test report
         if: always()
@@ -108,6 +116,12 @@ jobs:
           name: jacoco-report
           path: target/site/jacoco/index.html
           overwrite: true
+
+      - name: Remove tmp files
+        run: |
+          rm -f .plan
+          rm -f loadtest.log
+          rm -rf .qa/.qa
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
