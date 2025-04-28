@@ -41,7 +41,7 @@ jobs:
 
       - name: Generating LLM index
         id: QAIndex
-        uses: Jacobsonius/qa-assistance-action@master
+        uses: dmitru305/qa-assistance-action@master
         with:
           key: ${{ secrets.KEY }}
           action-name: INDEX
