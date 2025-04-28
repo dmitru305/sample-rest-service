@@ -7,11 +7,12 @@ on:
     branches: [ "master" ]
 
 jobs:
-  attempt-0: # Generating LLM index
+
+  create-llm-index:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout project
         uses: actions/checkout@v4
 
       - name: Set up JDK
@@ -21,6 +22,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build and test with Maven
+        continue-on-error: false
         run: mvn clean verify
 
       - name: Save test report
@@ -39,6 +41,12 @@ jobs:
           path: target/site/jacoco/index.html
           overwrite: true
 
+#      - name: Log in to Docker Hub
+#        uses: docker/login-action@v3
+#        with:
+#          username: ${{ env.DOCKER_USERNAME }}
+#          password: ${{ env.DOCKER_PASSWORD }}
+      -
       - name: Generating project llm index
         id: QAIndex
         uses: Jacobsonius/hello-world-docker-action@DockerHub
@@ -59,36 +67,29 @@ jobs:
           path: .qa
           overwrite: true
 
-  attempt-1:
-    needs: attempt-0
-    if: needs.attempt-0.result == 'success'
+  update-tests:
+    needs: create-llm-index
+    if: needs.create-llm-index.result == 'success'
     uses: ./.github/workflows/reusable.yml
     with:
       attempt: 1
     secrets:
       MY_SECRET_KEY: ${{ secrets.KEY }}
 
-  attempt-2:
-    needs: attempt-1
-    if: needs.attempt-1.result == 'failure' || needs.attempt-1.outputs.build_exit_code != '0'
+  update-tests-retry-1:
+    needs: update-tests
+    if: needs.update-tests.result == 'failure' || needs.update-tests.outputs.build_exit_code != '0'
     uses: ./.github/workflows/reusable.yml
     with:
       attempt: 2
     secrets:
       MY_SECRET_KEY: ${{ secrets.KEY }}
 
-  attempt-3:
-    needs: attempt-2
-    if: needs.attempt-2.result == 'failure' || needs.attempt-2.outputs.build_exit_code != '0'
+  update-tests-retry-2:
+    needs: update-tests-retry-1
+    if: needs.update-tests-retry-1.result == 'failure' || needs.update-tests-retry-1.outputs.build_exit_code != '0'
     uses: ./.github/workflows/reusable.yml
     with:
       attempt: 3
     secrets:
       MY_SECRET_KEY: ${{ secrets.KEY }}
-
-
-#      - name: Log in to Docker Hub
-#        uses: docker/login-action@v3
-#        with:
-#          username: ${{ env.DOCKER_USERNAME }}
-#          password: ${{ env.DOCKER_PASSWORD }}
