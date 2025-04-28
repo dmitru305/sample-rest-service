@@ -93,7 +93,7 @@ jobs:
         run: |
           echo "build_exit_code=$?" >> $GITHUB_OUTPUT        
 
-      - name: Save build log!
+      - name: Save build log
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -121,18 +121,15 @@ jobs:
         run: |
           rm -f .plan
           rm -f loadtest.log
+          rm -f build.log
           rm -rf .qa/.qa
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "Auto update QA"
-          #            auto-merge: true
+          commit-message: "QA Assistance: JUnit tests updated"
           branch: auto/update-report
-          title: "Auto update QA"
-          body: "This PR was automatically created from GitHub QA Assistance Actions"
+          title: "QA Assistance"
+          body: "This PR was automatically created from QA Assistance"
           base: master
-
-#      - name: Show files
-#        run: tree ./

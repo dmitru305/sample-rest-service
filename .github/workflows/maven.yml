@@ -3,8 +3,6 @@ name: Java CI with Maven
 on:
   push:
     branches: [ "qa" ]
-  pull_request:
-    branches: [ "master" ]
 
 jobs:
 
@@ -21,12 +19,12 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build and test with Maven
+      - name: Build and test
         continue-on-error: false
         run: mvn clean verify
 
       - name: Save test report
-        if: always()  # even if the tests failed
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: junit-report
@@ -34,20 +32,14 @@ jobs:
           overwrite: true
 
       - name: Save coverage report
-        if: always()  # even if the tests failed
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
           path: target/site/jacoco/index.html
           overwrite: true
 
-#      - name: Log in to Docker Hub
-#        uses: docker/login-action@v3
-#        with:
-#          username: ${{ env.DOCKER_USERNAME }}
-#          password: ${{ env.DOCKER_PASSWORD }}
-
-      - name: Generating project llm index
+      - name: Generating LLM index
         id: QAIndex
         uses: Jacobsonius/hello-world-docker-action@DockerHub
         with:
@@ -59,7 +51,7 @@ jobs:
           input-dir: ./
           output-dir: ./
 
-      - name: Save Index
+      - name: Save LLM index
         uses: actions/upload-artifact@v4
         with:
           name: llm-index
