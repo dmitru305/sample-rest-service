@@ -70,7 +70,7 @@ jobs:
 
   attempt-2:
     needs: attempt-1
-    if: needs.attempt-1.result == 'failure'
+    if: needs.attempt-1.result == 'failure' || needs.attempt-1.outputs.build_exit_code != '0'
     uses: ./.github/workflows/reusable.yml
     with:
       attempt: 2
@@ -79,7 +79,7 @@ jobs:
 
   attempt-3:
     needs: attempt-2
-    if: needs.attempt-2.result == 'failure'
+    if: needs.attempt-2.result == 'failure' || needs.attempt-2.outputs.build_exit_code != '0'
     uses: ./.github/workflows/reusable.yml
     with:
       attempt: 3

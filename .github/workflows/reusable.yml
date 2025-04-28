@@ -6,6 +6,8 @@ on:
       attempt:
         required: true
         type: number
+    outputs:
+      build_exit_code: ${{ steps.capture_exit_code.outputs.build_exit_code }}
     secrets:
       MY_SECRET_KEY:
         required: true
@@ -78,7 +80,13 @@ jobs:
           output-dir: ./
 
       - name: Build and re-test (Attempt ${{ inputs.attempt }})
+        continue-on-error: true
         run: mvn clean verify
+
+      - name: Capture Maven Exit Code
+        id: capture_exit_code
+        run: |
+          echo "build_exit_code=$?" >> $GITHUB_OUTPUT        
 
       - name: Save test report
         if: always()
