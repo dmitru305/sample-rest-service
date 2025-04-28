@@ -51,7 +51,7 @@ jobs:
 
       - name: Generating test plan
         id: QATestPlan
-        uses: Jacobsonius/qa-assistance-action@master
+        uses: dmitru305/qa-assistance-action@master
         with:
           key: ${{ secrets.MY_SECRET_KEY }}
           action-name: PLAN
@@ -71,7 +71,7 @@ jobs:
 
       - name: Update tests
         id: QAUpdateTests
-        uses: Jacobsonius/qa-assistance-action@master
+        uses: dmitru305/qa-assistance-action@master
         with:
           key: ${{ secrets.MY_SECRET_KEY }}
           action-name: JUNIT_UPDATE
