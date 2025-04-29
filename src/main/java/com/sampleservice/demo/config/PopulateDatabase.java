@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
-import com.sampleservice.demo.dao.StudentDAO;
 import com.sampleservice.demo.model.Student;
 import com.sampleservice.demo.service.StudentService;
 import org.slf4j.Logger;
